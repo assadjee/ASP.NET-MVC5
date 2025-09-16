@@ -124,7 +124,20 @@ pairs in the HTTP request are used to populate properties of domain model types.
 return View("Thanks", guestResponse);
 ...
 ```
+
+### Thanks View (Thanks.cshtml)
 ```
+@model PartyInvites.Models.GuestResponse
+@{
+Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<title>Thanks</title>
+</head>
+<body>
 <div>
 <h1>Thank you, @Model.Name!</h1>
 @if (Model.WillAttend == true) {
@@ -133,6 +146,8 @@ return View("Thanks", guestResponse);
 @:Sorry to hear that you can't make it, but thanks for letting us know.
 }
 </div>
+</body>
+</html>
 ```
 
 
