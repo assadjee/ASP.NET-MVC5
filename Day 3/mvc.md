@@ -1,4 +1,4 @@
-# Key Benefits of ASP.NET MVC
+# ASP.NET MVC
 
 In October 2007, Microsoft announced a new MVC Web development platform built on the core ASP.NET platform. This was clearly designed as a direct response to the evolution of technologies such as Rails and as a reaction to the criticisms of Web Forms. The following sections describe how this new platform overcame the limitations of Web Forms and brought ASP.NET back to the cutting edge.
 
