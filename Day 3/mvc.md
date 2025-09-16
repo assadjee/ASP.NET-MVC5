@@ -67,3 +67,144 @@ In the rest of this chapter, I will explore the basic MVC features by building a
 ### Designing a Data Model
 
 In MVC, the M stands for model, which is the representation of the real-world objects, processes, and rules that define the subject of the application. The model contains the C# objects that make up the universe of the application and the methods that manipulate them.
+
+```
+ public class GuestResponse
+ {
+     public string Name { get; set; }
+     public string Email { get; set; }
+     public string Phone { get; set; }
+     public bool? WillAttend { get; set; }
+ }
+```
+
+### View:
+
+#### Drop down change to:
+
+```
+     @Html.DropDownListFor(model => model.WillAttend, new[]
+{
+    new SelectListItem(){Text = "Yes, I'll be there", Value = bool.TrueString},
+    new SelectListItem(){Text = "No, I can not come", Value = bool.TrueString},
+
+})
+```
+
+
+### Controller
+What to do with the data when user submits it
+#### HttpPost Method:
+
+``` csharp
+[HttpPost]
+public ViewResult RsvpForm(GuestResponse guestResponse)
+{
+    // TODO: Email response to the party organizer
+    return View("Thanks", guestResponse);
+}
+```
+
+#### Using Model Binding
+
+Using Model Binding
+The first overload of the RsvpForm action method renders the same view as before–the RsvpForm.cshtml file–to generate
+the form shown in Figure 2-18.
+The second overload is more interesting because of the parameter, but given that the action method will
+be invoked in response to an HTTP POST request, and that the GuestResponse type is a C# class, how are the two
+connected?
+The answer is model binding, an extremely useful MVC feature whereby incoming data is parsed and the key/value
+pairs in the HTTP request are used to populate properties of domain model types.
+
+
+#### Rendering Other Views
+
+```csharp
+...
+return View("Thanks", guestResponse);
+...
+```
+```
+<div>
+<h1>Thank you, @Model.Name!</h1>
+@if (Model.WillAttend == true) {
+@:It's great that you're coming. The drinks are already in the fridge!
+} else {
+@:Sorry to hear that you can't make it, but thanks for letting us know.
+}
+</div>
+```
+
+
+### Adding Validation
+I am now in a position to add validation to my application. Without validation, users could enter nonsense data or even
+submit an empty form. In an MVC application, validation is typically applied in the domain model, rather than in the
+user interface. This means that I am able to define validation criteria in one place and have it take effect anywhere in the
+application that the model class is used. ASP.NET MVC supports declarative validation rules defined with attributes from
+the System.ComponentModel.DataAnnotations namespace
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+namespace PartyInvites.Models {
+public class GuestResponse {
+[Required(ErrorMessage = "Please enter your name")]
+public string Name { get; set; }
+[Required(ErrorMessage = "Please enter your email address")]
+[RegularExpression(".+\\@.+\\..+",
+ErrorMessage = "Please enter a valid email address")]
+public string Email { get; set; }
+[Required(ErrorMessage = "Please enter your phone number")]
+public string Phone { get; set; }
+[Required(ErrorMessage = "Please specify whether you'll attend")]
+public bool? WillAttend { get; set; }
+}
+}
+```
+
+
+#### Validation in Controller
+
+```csharp 
+[HttpPost]
+public ViewResult RsvpForm(GuestResponse guestResponse) {
+if (ModelState.IsValid) {
+// TODO: Email response to the party organizer
+return View("Thanks", guestResponse);
+} else {
+// there is a validation error
+return View();
+}
+}
+```
+
+#### In View add the following inside the form:
+
+```
+@using (Html.BeginForm()) {
+@Html.ValidationSummary()
+```
+
+
+#### Highlighting Invalid Fields
+- Step 1:
+Add Validation error class
+```
+<input class="input-validation-error" data-val="true" data-val-required="Please enter your name"
+id="Name" name="Name" type="text" value="" />
+```
+
+- Step 2: Add Styles.css file to Content folder
+- Step 3: Add following css:
+
+```css
+.field-validation-error {color: #f00;}
+.field-validation-valid { display: none;}
+.input-validation-error { border: 1px solid #f00; background-color: #fee; }
+.validation-summary-errors { font-weight: bold; color: #f00;}
+.validation-summary-valid { display: none;}
+``` 
+
+-Step 5: Add css to the view:
+```
+<link rel="stylesheet" type="text/css" href="~/Content/Styles.css" />
+```
