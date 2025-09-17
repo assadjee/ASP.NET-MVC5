@@ -86,7 +86,7 @@ In MVC, the M stands for model, which is the representation of the real-world ob
      @Html.DropDownListFor(model => model.WillAttend, new[]
 {
     new SelectListItem(){Text = "Yes, I'll be there", Value = bool.TrueString},
-    new SelectListItem(){Text = "No, I can not come", Value = bool.TrueString},
+    new SelectListItem(){Text = "No, I can not come", Value = bool.FalseString},
 
 })
 ```
