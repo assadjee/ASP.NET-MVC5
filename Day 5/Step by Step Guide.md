@@ -54,6 +54,53 @@ This guide will walk you through the steps to build the Vidly project, a movie r
          public string Name { get; set; }
      }
      ```
+3. **Create the Customer Model**
+- Create a `Customer.cs` file in the same folder:
+```csharp
+ public class Customer
+ {
+     public int Id { get; set; }
+     [Required]
+     [StringLength(255)]
+     public string Name { get; set; }
+     [DisplayName("Date of Birth")]
+     [Min18yrsIfAMember]
+     public DateTime? BirthDate { get; set; }
+     public bool IsSubscribedToNewsletter { get; set; }
+     public MembershipType MembershipType { get; set; }
+     [Display(Name = "Membership Type")]
+     public byte MembershipTypeId { get; set; }
+
+ }
+```
+3. **Create the Rental Model**
+- Create a `Rental.cs` file in the same folder:
+```csharp
+ public class Rental
+{
+    public int Id { get; set; }
+    [Required]
+    public Movie Movie { get; set; }
+    [Required]
+    public Customer Customer { get; set; }
+    public DateTime DateRented { get; set; }
+    public DateTime? DateReturned { get; set; }
+}
+```
+4. **Create the Membership Type Model**
+- Create a `MembershipType.cs` file in the same folder:
+```csharp
+ public class MembershipType
+{
+    public byte Id { get; set; }
+    public string Name { get; set; }
+    public short SignUpFee { get; set; }
+    public byte DurationInMonth { get; set; }
+    public byte DiscountRate { get; set; }
+    public static readonly byte Unknown = 0;
+    public static readonly byte PayAsYouGo = 1;
+}
+```
 
 ## Step 3: Set Up the Database Context
 
