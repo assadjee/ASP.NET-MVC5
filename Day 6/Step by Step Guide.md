@@ -31,7 +31,17 @@ This guide will walk you through the steps to build the Vidly project, a movie r
     - Add to the Stylesheets
 ## Step 2: Create the Data Models
 
-1. **Create the Movie Model**
+1.**Create the Genre Model**
+   - Create a `Genre.cs` file in the same folder:
+     ```csharp
+     public class Genre
+     {
+         public int Id { get; set; }
+         public string Name { get; set; }
+     }
+     ```
+
+2.  **Create the Movie Model**
    - In the `Models` folder, create a `Movie.cs` file:
      ```csharp
      public class Movie
@@ -40,18 +50,7 @@ This guide will walk you through the steps to build the Vidly project, a movie r
          public string Name { get; set; }
          public DateTime ReleaseDate { get; set; }
          public DateTime DateAdded { get; set; }
-         public int NumberInStock { get; set; }
-         public Genre Genre { get; set; }
-     }
-     ```
-
-2. **Create the Genre Model**
-   - Create a `Genre.cs` file in the same folder:
-     ```csharp
-     public class Genre
-     {
-         public int Id { get; set; }
-         public string Name { get; set; }
+         public int NumberInStock { get; set; }        
      }
      ```
 3. **Create the Customer Model**
@@ -64,29 +63,14 @@ This guide will walk you through the steps to build the Vidly project, a movie r
      [StringLength(255)]
      public string Name { get; set; }
      [DisplayName("Date of Birth")]
-     [Min18yrsIfAMember]
      public DateTime? BirthDate { get; set; }
      public bool IsSubscribedToNewsletter { get; set; }
      public MembershipType MembershipType { get; set; }
      [Display(Name = "Membership Type")]
      public byte MembershipTypeId { get; set; }
-
  }
 ```
-3. **Create the Rental Model**
-- Create a `Rental.cs` file in the same folder:
-```csharp
- public class Rental
-{
-    public int Id { get; set; }
-    [Required]
-    public Movie Movie { get; set; }
-    [Required]
-    public Customer Customer { get; set; }
-    public DateTime DateRented { get; set; }
-    public DateTime? DateReturned { get; set; }
-}
-```
+
 4. **Create the Membership Type Model**
 - Create a `MembershipType.cs` file in the same folder:
 ```csharp
@@ -95,27 +79,21 @@ This guide will walk you through the steps to build the Vidly project, a movie r
     public byte Id { get; set; }
     public string Name { get; set; }
     public short SignUpFee { get; set; }
-    public byte DurationInMonth { get; set; }
+    public byte DurationInMonths { get; set; }
     public byte DiscountRate { get; set; }
-    public static readonly byte Unknown = 0;
-    public static readonly byte PayAsYouGo = 1;
 }
 ```
 
 ## Step 3: Set Up the Database Context
 
 1. **Create the ApplicationDbContext**
-   - In the `Models` folder, create an `ApplicationDbContext.cs` file:
+   - In the `Models` folder, look for `ApplicationDbContext` class inside `IdentityModels.cs` file. Add following DbSets to the class
      ```csharp
-     using System.Data.Entity;
-
-     public class ApplicationDbContext : DbContext
-     {
-         public ApplicationDbContext() : base("DefaultConnection") { }
-
+     
          public DbSet<Movie> Movies { get; set; }
-         public DbSet<Genre> Genres { get; set; }
-     }
+         public DbSet<Customer> Customers { get; set; }
+         public DbSet<MembershipType> MembershipTypes { get; set; }
+     
      ```
 
 2. **Configure Connection String**
@@ -145,8 +123,41 @@ This guide will walk you through the steps to build the Vidly project, a movie r
      ```bash
      Update-Database
      ```
+## Seeding the Database
+Update the MembershipTypes data to the Database:
 
-## Step 5: Create the Controllers
+- `add-migration PopulateMembershipTypes`
+- Sql("insert into MembershipTypes(Id, Name, SignUpFee, DurationInMonths, DiscountRate) values" +
+    "(1, 'Pay As You Go',0, 0, 0)");`
+- Other membership types data is: 
+   1. (2, 'Monthly', 30, 1, 10)
+   2. (3, 'Quarterly',  90, 3, 15)
+   3. (4, 'Yearly', 300, 12, 20)
+
+## Coding Challenges:
+### Add Birthdate to the Customer Model
+### Plopulate Genre table using the migrations
+1. Add dbSet of Genre to the DbContext
+2. Add Following are the possible values for the Genre:
+   - Action
+   - Adventure
+   - Comedy
+   - Crime
+   - Documentary
+   - Drama
+   - Fantasy
+   - Horror
+3. Use Migration to populate these values
+
+
+### Update the movies and Add Genre to them
+Use the following to do so:
+1. Add Genre to the Movies Model ` public Genre Genre { get; set; }`
+2. Update Movies Table using Migrations
+3. Add Genre values to the Movies using Migr
+4. Make necessary Changes to the Movies Controller and the corresponding Views
+
+## Step 5: Create the Controllers ( Use scaffolding and create Views along with Controller)
 
 1. **Create the Movies Controller**
    - Right-click on the `Controllers` folder, select "Add" > "Controller".
@@ -182,7 +193,6 @@ This guide will walk you through the steps to build the Vidly project, a movie r
          </tbody>
      </table>
      ```
-
 ## Step 7: Set Up User Authentication
 
 1. **Install Identity Framework**
@@ -201,6 +211,20 @@ This guide will walk you through the steps to build the Vidly project, a movie r
 
 1. **Create Rental Model**
    - Implement a model for managing rentals, including properties like `CustomerId`, `MovieId`, and rental dates.
+
+   - Create a `Rental.cs` file in the same folder:
+```csharp
+ public class Rental
+{
+    public int Id { get; set; }
+    [Required]
+    public Movie Movie { get; set; }
+    [Required]
+    public Customer Customer { get; set; }
+    public DateTime DateRented { get; set; }
+    public DateTime? DateReturned { get; set; }
+}
+```
 
 2. **Create Rentals Controller**
    - Implement CRUD operations for handling rentals.
