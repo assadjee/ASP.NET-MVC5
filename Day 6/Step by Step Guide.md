@@ -157,6 +157,19 @@ Use the following to do so:
 3. Add Genre values to the Movies using Migr
 4. Make necessary Changes to the Movies Controller and the corresponding Views
 
+### References - Entity Framework:
+
+#### LINQ Extension Methods
+```csharp
+_context.Movies.Where(m => m.GereId == 1);
+_context.Movies.Single(m => m.Id == 1);
+_context.Movies.SingleOrDefault(m => m.Id == 1);
+_context.Movies.ToList();
+
+//Eager Loading
+_context.Movies.Include(m => m.Genre);
+```
+
 ## Step 5: Create the Controllers ( Use scaffolding and create Views along with Controller)
 
 1. **Create the Movies Controller**
@@ -193,6 +206,8 @@ Use the following to do so:
          </tbody>
      </table>
      ```
+
+     
 ## Step 7: Set Up User Authentication
 
 1. **Install Identity Framework**
