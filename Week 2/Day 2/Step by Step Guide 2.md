@@ -1,8 +1,14 @@
-# Step-by-Step Guide to Build the Vidly Project (2) Continued...
+# Step-by-Step Guide to Build the Vidly Project (Day 2) Continued...
 
 ## Overview
 
 This guide will walk you through the steps to build the Vidly project, a movie rental application using ASP.NET MVC 5. You'll learn to implement key features such as user authentication, movie management, and customer rentals.
+
+## Today's Objectives:
+- Filling in data to the database
+- Create Controllers and Views
+- Validation
+- Custom Validation (Implementing the business rules)
 
 ## Coding Challenges:
 ### Plopulate Genre table using the migrations
