@@ -32,8 +32,7 @@ Note that the Views are created automatically.
 
 - Movies
 - Customers
-- Genre
-- MembershipTypes
+
 
 1. . **Create the Movies Controller**
    - Right-click on the `Controllers` folder, select "Add" > "Controller".
