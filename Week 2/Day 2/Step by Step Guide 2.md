@@ -148,7 +148,7 @@ Required when updating data.
 Apply validation for the business rule that the customer should be 18 years old if wants to be a member.
 
 #### Steps:
-1. Add new class `Min18YearsIfAMember`
+1. Add new class `Min18YearsIfAMember` (For validation Attribute)
 2. Add the Attribute to the Model
 3. Add the following code into the newly added class:
 
