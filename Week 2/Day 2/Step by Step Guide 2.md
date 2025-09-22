@@ -6,7 +6,7 @@ This guide will walk you through the steps to build the Vidly project, a movie r
 
 ## Coding Challenges:
 ### Plopulate Genre table using the migrations
-1. Add dbSet of Genre to the DbContext
+1. Add dbSet of Genre to the DbContext (if not added yet)
 2. Add Following are the possible values for the Genre:
    - Action
    - Adventure
