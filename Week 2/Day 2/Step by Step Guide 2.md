@@ -114,7 +114,7 @@ Markup for Checkbox Fields
 #### Drop-down Lists
 
 ```
-@Html.DropDownListFor(m =>m.TypeId,newSelectList(Model.Types,“Id”,“Name”),“”,new{@class=“form-­‐control”}     
+@Html.DropDownListFor(m =>m.TypeId,newSelectList(Model.Types,“Id”,“Name”),“”,new{@class=“form-­‐control”})     
 ```
 
 #### Saving the data
