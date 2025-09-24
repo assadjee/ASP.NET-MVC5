@@ -152,5 +152,10 @@ You can use tools like Postman or cURL to test your API endpoints:
 - **POST** `/api/customers` - Create a new customer (send JSON in the body).
 - **PUT** `/api/customers/{id}` - Update an existing customer (send JSON in the body).
 - **DELETE** `/api/customers/{id}` - Delete a customer by ID.
-Conclusion
-In this section, we've covered the fundamentals of building RESTful services using ASP.NET Web APIs. You now have a working Customer API Controller that illustrates how to manage customers through standard HTTP methods. Continue exploring the course to deepen your understanding of ASP.NET MVC5!
+
+
+### Create the Movies Controller
+Following similar steps inside the `Controllers/Api` folder, create a `MoviesController`.
+
+## Summary
+In this section, we've covered the fundamentals of building RESTful services using ASP.NET Web APIs. You now have a working Customer API Controller that illustrates how to manage customers through standard HTTP methods. 
