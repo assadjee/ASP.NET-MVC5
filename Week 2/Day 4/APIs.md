@@ -1,6 +1,6 @@
 # RESTful Services with ASP.NET Web APIs
 
-## Course Overview
+## Overview
 This section focuses on building RESTful services using ASP.NET Web APIs. You'll learn how to create and consume APIs that follow REST principles, enabling seamless communication between clients and servers.
 
 ### What Are RESTful Services?
