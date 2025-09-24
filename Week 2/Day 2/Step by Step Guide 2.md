@@ -108,6 +108,24 @@ _context.Movies.Include(m => m.Genre);
 }
 ```
 
+#### date field
+
+```
+ @Html.EditorFor(model => model.BirthDate,"{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "form-control", type="date" } })
+```
+#### Displaying date
+
+```c
+@if(item.BirthDate.HasValue)
+{
+
+@item.BirthDate.Value.ToString("dd-MM-yyyy")
+}
+else
+{
+<span>&nbsp;</span>    
+}
+```
 #### checkbox
 
 ```
@@ -147,6 +165,7 @@ Save(Customer customer)
 Required when updating data.
 `@Html.HiddenFor(m =>m.Customer.Id)`
 
+
 ## Implementing Validations
 
 ### Custom Validation
@@ -167,6 +186,22 @@ protected override ValidationResult IsValid(object value, ValidationContext vali
         return new ValidationResult("Birthdate is required");
     var age = DateTime.Today.Year - customer.BirthDate.Value.Year;
     return (age >= 18) ? ValidationResult.Success : new ValidationResult("Customer should be at least 18 years old to be a member");                       
+}
+```
+
+##### Refactoring Magic Numbers
+Get rid of magic numbers (0, 1) to make the code more readable. In `MembershipType` Model, explicitly define the membership types to make the code more maintainable. 
+
+```csharp
+public static readonly byte Unknown = 0;
+public static readonly byte PayAsYouGo = 1;
+```
+Making them readonly to avoid accidental changes in any other place in the code. Now in the validation class, replace 0 and 1 in the Validation Attribute.
+## Client Side Validation
+By default the client side validation is not enabled.
+```
+@section scripts{
+   @Scripts.Render("~/bundles/jqueryval")
 }
 ```
 ## Step 7: Set Up User Authentication
