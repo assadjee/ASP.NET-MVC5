@@ -58,7 +58,7 @@ public class MovieDto
     public int NumberInStock { get; set; }
 }
 ```
-- **Customer DTO**
+- **Genre DTO**
 ```csharp
 public class GenreDto
 {
