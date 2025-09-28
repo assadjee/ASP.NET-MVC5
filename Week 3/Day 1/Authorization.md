@@ -154,7 +154,7 @@ public ActionResult Create()
 
 ### Making Roles names static and easily maintainable
 
-- create a RoleNames class in models 
+- create a RoleName class in models 
 - define roles in this class
 
 ```csharp
@@ -163,4 +163,5 @@ public class RoleName
     public const string CanManageMovies = "CanManageMovies";
 }
 ```
-- update the code based on this RoleNames class.
+- update the code based on this RoleNames class `[Authorize(Roles = RoleName.CanManageMovies)]
+`.
