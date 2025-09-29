@@ -115,19 +115,31 @@ public class MovieRentalsController : ApiController
 ### Update MovieController
 
 ```csharp
-if (movieInDb == null)
-    return NotFound();
-bool stockIncreasead = false;
-int numberAvailable = movieInDb.NumberAvailable;
-//Implement logic for Available movies
-if(movieDto.NumberInStock > movieInDb.NumberInStock)
+// PUT: api/Movies/5
+[ResponseType(typeof(void))]
+public IHttpActionResult PutMovie(int id, MovieDto movieDto)
 {
-    stockIncreasead = true;
-    if(movieInDb.NumberInStock == movieInDb.NumberAvailable )
-        numberAvailable += movieDto.NumberInStock - movieInDb.NumberInStock 
+    if (!ModelState.IsValid)
+        return BadRequest();
+    //throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+    var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
+    if (movieInDb == null)
+        return NotFound();
+    bool stockIncreasead = false;
+    int numberAvailable = movieInDb.NumberAvailable;
+    //Implement logic for Available movies
+    if(movieDto.NumberInStock > movieInDb.NumberInStock)
+    {
+        stockIncreasead = true;
+        if(movieInDb.NumberInStock == movieInDb.NumberAvailable )
+            numberAvailable += movieDto.NumberInStock - movieInDb.NumberInStock 
+    }
+    Mapper.Map(movieDto, movieInDb);
+    movieInDb.NumberAvailable = numberAvailable;
+    _context.SaveChanges();
+    return Ok(movieDto);
 }
-Mapper.Map(movieDto, movieInDb);
-movieInDb.NumberAvailable = numberAvailable;
 ```
 ### Misc        
 - Update `Movie` model 
