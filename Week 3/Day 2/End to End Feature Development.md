@@ -1,4 +1,4 @@
-# Section 10: Renting Out Movies in the Vidly Project
+# End to End Feature ImplementationRenting Out Movies in the Vidly Project
 
 ## Overview
 
@@ -112,6 +112,13 @@ public class MovieRentalsController : ApiController
     }
 
 ```
+
+### Misc        
+- Update `Movie` model 
+- Add `public int NumberAvailable { get; set; } ` 
+- Add Migration and add it to the database
+- Make necessary changes in the Controllers (including API Controller)
+
 #### C. View
 
 #### Install auto-completion package:
@@ -185,7 +192,7 @@ tt-container {
 }
 ```
 - Add css to the bundle `"~/Content/typeahead.css"`
-
+- Add an emptyy View into Rental Views.
 ```html
 @model dynamic
 @{
@@ -318,3 +325,44 @@ tt-container {
 }
 
 ```
+
+### Fixes
+- In `CustomerController` in APIControllers, for `GetCustomers` action, add `(string query = null)` as argument and following inside action:
+
+```csharp
+var customers = _context.Customers
+    .Include(c => c.MembershipType);
+if (!String.IsNullOrWhiteSpace(query))
+    customers = customers.Where(c => c.Name.Contains(query));
+
+return customers
+    .ToList()
+    .Select(Mapper.Map<Customer, CustomerDto>); 
+```
+
+- In Movies Controller, filter on the movie names and those which are available
+
+```csharp
+//GET api/movies
+        public IEnumerable<MovieDto> GetMovies(string query = null)
+        {
+            var movies = _context
+                .Movies
+                .Include(m => m.Genre)
+                .Where(m => m.NumberAvailable > 0);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                movies = movies.Where(m => m.Name.Contains(query));
+
+            return movies
+                .ToList()
+                .Select(Mapper.Map<Movie, MovieDto>);
+        }
+```
+
+### Display Toast Notifications
+
+- Install the package `toastr` using package manager: `install-package toastr`
+- Add JS bundle and css bundle in BundleConfig accordingly.
+- `"~/Scripts/toastr.js"` and
+- `"~/Content/toastr.css"`
