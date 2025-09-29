@@ -126,12 +126,12 @@ public IHttpActionResult PutMovie(int id, MovieDto movieDto)
     var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
     if (movieInDb == null)
         return NotFound();
-    bool stockIncreasead = false;
+    bool stockIncreased = false;
     int numberAvailable = movieInDb.NumberAvailable;
     //Implement logic for Available movies
     if(movieDto.NumberInStock > movieInDb.NumberInStock)
     {
-        stockIncreasead = true;
+        stockIncreased = true;
         if(movieInDb.NumberInStock == movieInDb.NumberAvailable )
             numberAvailable += movieDto.NumberInStock - movieInDb.NumberInStock 
     }
