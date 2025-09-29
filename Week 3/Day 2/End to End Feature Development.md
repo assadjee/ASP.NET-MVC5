@@ -366,3 +366,11 @@ return customers
 - Add JS bundle and css bundle in BundleConfig accordingly.
 - `"~/Scripts/toastr.js"` and
 - `"~/Content/toastr.css"`
+
+## Deployment
+- Application Publish Method: Publish on File System
+
+- Database: `update-database -script -SourceMigration:MigrationName`
+- Import to the custom database or handover to DBA to deploy the database
+
+
