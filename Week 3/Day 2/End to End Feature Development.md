@@ -163,7 +163,7 @@ public class MoviesController : ApiController
         {
             stockIncreased = true;
             if(movieInDb.NumberInStock == movieInDb.NumberAvailable )
-                numberAvailable += movieDto.NumberInStock - movieInDb.NumberInStock 
+                numberAvailable += movieDto.NumberInStock - movieInDb.NumberInStock; 
         }
         Mapper.Map(movieDto, movieInDb);
         movieInDb.NumberAvailable = numberAvailable;
