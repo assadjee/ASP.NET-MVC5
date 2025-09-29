@@ -112,7 +112,23 @@ public class MovieRentalsController : ApiController
     }
 
 ```
+### Update MovieController
 
+```csharp
+if (movieInDb == null)
+    return NotFound();
+bool stockIncreasead = false;
+int numberAvailable = movieInDb.NumberAvailable;
+//Implement logic for Available movies
+if(movieDto.NumberInStock > movieInDb.NumberInStock)
+{
+    stockIncreasead = true;
+    if(movieInDb.NumberInStock == movieInDb.NumberAvailable )
+        numberAvailable += movieDto.NumberInStock - movieInDb.NumberInStock 
+}
+Mapper.Map(movieDto, movieInDb);
+movieInDb.NumberAvailable = numberAvailable;
+```
 ### Misc        
 - Update `Movie` model 
 - Add `public int NumberAvailable { get; set; } ` 
