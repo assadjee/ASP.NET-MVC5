@@ -112,33 +112,107 @@ public class MovieRentalsController : ApiController
     }
 
 ```
-### Update MovieController
+###  MovieController
 
 ```csharp
-// PUT: api/Movies/5
-[ResponseType(typeof(void))]
-public IHttpActionResult PutMovie(int id, MovieDto movieDto)
+public class MoviesController : ApiController
 {
-    if (!ModelState.IsValid)
-        return BadRequest();
-    //throw new HttpResponseException(HttpStatusCode.BadRequest);
-
-    var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
-    if (movieInDb == null)
-        return NotFound();
-    bool stockIncreased = false;
-    int numberAvailable = movieInDb.NumberAvailable;
-    //Implement logic for Available movies
-    if(movieDto.NumberInStock > movieInDb.NumberInStock)
-    {
-        stockIncreased = true;
-        if(movieInDb.NumberInStock == movieInDb.NumberAvailable )
-            numberAvailable += movieDto.NumberInStock - movieInDb.NumberInStock 
+    private ApplicationDbContext _context;
+    public MoviesController()
+    {               
+        _context = new ApplicationDbContext();
     }
-    Mapper.Map(movieDto, movieInDb);
-    movieInDb.NumberAvailable = numberAvailable;
-    _context.SaveChanges();
-    return Ok(movieDto);
+
+    // GET: api/Movies
+    public IEnumerable<MovieDto> GetMovies()
+    {
+        var movies = _context.Movies
+                        .Include(c => c.Genre);
+        return movies
+            .ToList()
+            .Select(Mapper.Map<Movie, MovieDto>);
+    }
+
+    // GET: api/Movies/5
+    [ResponseType(typeof(Movie))]
+    public IHttpActionResult GetMovie(int id)
+    {
+        var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
+
+        if (movie == null)
+            return NotFound();
+
+        return Ok(Mapper.Map<Movie, MovieDto>(movie));
+    }
+
+    // PUT: api/Movies/5
+    [ResponseType(typeof(void))]
+    public IHttpActionResult PutMovie(int id, MovieDto movieDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+        //throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+        var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
+        if (movieInDb == null)
+            return NotFound();
+        bool stockIncreased = false;
+        int numberAvailable = movieInDb.NumberAvailable;
+        //Implement logic for Available movies
+        if(movieDto.NumberInStock > movieInDb.NumberInStock)
+        {
+            stockIncreased = true;
+            if(movieInDb.NumberInStock == movieInDb.NumberAvailable )
+                numberAvailable += movieDto.NumberInStock - movieInDb.NumberInStock 
+        }
+        Mapper.Map(movieDto, movieInDb);
+        movieInDb.NumberAvailable = numberAvailable;
+        _context.SaveChanges();
+        return Ok(movieDto);
+    }
+
+    // POST: api/Movies
+    [ResponseType(typeof(Movie))]
+    public IHttpActionResult PostMovie(MovieDto movieDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+        //throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+        var movie = Mapper.Map<MovieDto, Movie>(movieDto);
+        movie.NumberAvailable = movie.NumberInStock;
+        _context.Movies.Add(movie);
+        _context.SaveChanges();
+        movieDto.Id = movie.Id;
+        return Created(Request.RequestUri + "/" + movie.Id, movieDto);
+    }
+
+    // DELETE: api/Movies/5
+    [ResponseType(typeof(Movie))]
+    public IHttpActionResult DeleteMovie(int id)
+    {
+        var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
+        if (movieInDb == null)
+            return NotFound();
+
+        _context.Movies.Remove(movieInDb);
+        _context.SaveChanges();
+        return Ok();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _context.Dispose();
+        }
+        base.Dispose(disposing);
+    }
+
+    private bool MovieExists(int id)
+    {
+        return _context.Movies.Count(e => e.Id == id) > 0;
+    }
 }
 ```
 ### Misc        
