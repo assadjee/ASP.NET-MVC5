@@ -26,15 +26,9 @@ Identify Features:
 
 ### Implementation
 
-### Step 1: Create a New Solution
 
-1. **Open Visual Studio**.
-2. **Select "File" > "New" > "Project."**
-3. Choose **"Blank Solution."**
-4. **Name your solution** (e.g., `SportsStoreSolution`).
-5. Click **"Create."**
 
-### Step 2: Create the Web Application Project
+### Step 1: Create the Web Application Project
 
 1. **Right-click on the Solution** in Solution Explorer.
 2. Select **"Add" > "New Project."**
@@ -43,22 +37,8 @@ Identify Features:
 5. Click **"OK."**
 6. Choose the **"MVC"** template and click **"Create."**
 
-## 2: Creating the Domain Layer
+## 2: Creating the Domain Models
 
-### Step 1: Create the Domain Project
-
-1. **Right-click on the Solution**.
-2. Select **"Add" > "New Project."**
-3. Choose **"Class Library (.NET Framework)."**
-4. **Name it** (e.g., `SportsStore.Domain`).
-5. Click **"Create."**
-
-### Step 2: Define Domain Classes here
-
-1. **Install Entity Framework** in the `SportsStore.Domain` project:
-   ```bash
-   Install-Package EntityFramework
-   ```
 ### Define Domain Classes (Entities)
 #### Product Model 
  
@@ -85,17 +65,15 @@ public class Order
     public List<Product> Products { get; set; }
 }
 ```
-### Define Data Context
+### Add following DbSets to Data Context (inside `IdentityModels.cs`)
 
 ```csharp
-using System.Data.Entity;
-
-public class SportsStoreContext : DbContext
-{
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
-}
 ```
+
+### Create Services Folder
+- Add following classes inside the Services
 #### public class ProductService
 ```csharp
 {
@@ -111,19 +89,6 @@ public class SportsStoreContext : DbContext
 }
 ```
 
-##### Connection String
-```xml
-<connectionStrings>
-    <add name="DefaultConnection" connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SportsStore;Integrated Security=True" providerName="System.Data.SqlClient" />
-</connectionStrings>
-```
-
-### Add References
-Add Reference from Web to Domain Layer:
-
-Right-click on SportsStore.Web.
-Select "Add" > "Reference."
-Check SportsStore.Domain and click "OK."
 
 #### Configuring the Web Application
 ##### Add Connection String
@@ -146,7 +111,7 @@ Update-Database
 ```
 
 ### Define Repository Interfaces
-
+- In `Web` Project Add new folder named `Repositories`
 - Add new interface named `IProductRepository.cs`
 ```csharp
 using System.Collections.Generic;
@@ -182,7 +147,7 @@ namespace SportsStore.Domain
 
 ### Implement Repository Classes
 
-- In `Web` Project Add new folder named `Repositories`
+- Inside `Repositories` folder:
 - Add a class named `ProductRepository.cs`
 ```csharp
 uusing System.Collections.Generic;
@@ -275,7 +240,6 @@ namespace SportsStore.Web.Repositories
 
 ```csharp
 using System.Web.Mvc;
-using SportsStore.Domain;
 using SportsStore.Web.Repositories;
 
 public class ProductsController : Controller
