@@ -145,7 +145,7 @@ Update-Database
 - Inside `Repositories` folder:
 - Add a class named `ProductRepository.cs`
 ```csharp
-uusing System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SportsStore.Web.Repositories
