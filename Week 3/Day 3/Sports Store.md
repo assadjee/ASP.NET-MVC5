@@ -74,12 +74,13 @@ public class Order
 
 ### Create Services Folder
 - Add following classes inside the Services
-#### public class ProductService
+#### 
 ```csharp
+public class ProductService
 {
-    private readonly SportsStoreContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public ProductService(SportsStoreContext context)
+    public ProductService(ApplicationDbContext context)
     {
         _context = context;
     }
