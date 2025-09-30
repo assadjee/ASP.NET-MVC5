@@ -55,7 +55,7 @@ Identify Features:
 
 ### Step 2: Define Domain Classes here
 
-1. **Install Entity Framework** in the `SportsStore.Business` project:
+1. **Install Entity Framework** in the `SportsStore.Domain` project:
    ```bash
    Install-Package EntityFramework
    ```
@@ -182,14 +182,14 @@ namespace SportsStore.Domain
 
 ### Implement Repository Classes
 
-- In `UI` Project Add new folder named `Repositories`
+- In `Web` Project Add new folder named `Repositories`
 - Add a class named `ProductRepository.cs`
 ```csharp
 uusing System.Collections.Generic;
 using System.Linq;
 using SportsStore.Domain;
 
-namespace SportsStore.UI.Repositories
+namespace SportsStore.Web.Repositories
 {
     public class ProductRepository : IProductRepository
     {
@@ -245,7 +245,7 @@ namespace SportsStore.UI.Repositories
 using System.Collections.Generic;
 using SportsStore.Domain;
 
-namespace SportsStore.UI.Repositories
+namespace SportsStore.Web.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
@@ -271,12 +271,12 @@ namespace SportsStore.UI.Repositories
 
 ### Update the UI Layer
 #### Create Controllers and Views based on Controllers
-- In the `Controllers` folder of the `SportsStore.UI` project, create a new controller named `ProductsController`.
+- In the `Controllers` folder of the `SportsStore.Web` project, create a new controller named `ProductsController`.
 
 ```csharp
 using System.Web.Mvc;
 using SportsStore.Domain;
-using SportsStore.UI.Repositories;
+using SportsStore.Web.Repositories;
 
 public class ProductsController : Controller
 {
