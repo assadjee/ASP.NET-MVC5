@@ -228,6 +228,10 @@ namespace SportsStore.Web.Repositories
 }
 ```
 
+### Add Seed Data for Products
+- Add Migration SeedProducts
+- Add `INSERT` SQL Queries to add few products.
+
 ### Update the UI Layer
 #### Create Controllers and Views based on Controllers
 - In the `Controllers` folder of the `SportsStore.Web` project, create a new controller named `ProductsController`.
