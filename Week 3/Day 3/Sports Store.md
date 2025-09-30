@@ -65,7 +65,7 @@ public class Order
     public List<Product> Products { get; set; }
 }
 ```
-### Add following DbSets to Data Context (inside `IdentityModels.cs`)
+### Add following DbSets to ApplicationDBContext (inside `IdentityModels.cs`)
 
 ```csharp
     public DbSet<Product> Products { get; set; }
@@ -114,10 +114,7 @@ Update-Database
 - In `Web` Project Add new folder named `Repositories`
 - Add new interface named `IProductRepository.cs`
 ```csharp
-using System.Collections.Generic;
 
-namespace SportsStore.Domain
-{
     public interface IProductRepository
     {
         IEnumerable<Product> GetAllProducts();
@@ -126,23 +123,20 @@ namespace SportsStore.Domain
         void UpdateProduct(Product product);
         void DeleteProduct(int id);
     }
-}
+
 ```
 
 - Add new interface named `IOrderRepository.cs`
 
 ```csharp
-using System.Collections.Generic;
 
-namespace SportsStore.Domain
-{
     public interface IOrderRepository
     {
         IEnumerable<Order> GetAllOrders();
         Order GetOrderById(int id);
         void AddOrder(Order order);
     }
-}
+
 ```
 
 ### Implement Repository Classes
@@ -152,7 +146,6 @@ namespace SportsStore.Domain
 ```csharp
 uusing System.Collections.Generic;
 using System.Linq;
-using SportsStore.Domain;
 
 namespace SportsStore.Web.Repositories
 {
