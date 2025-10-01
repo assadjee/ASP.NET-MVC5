@@ -72,24 +72,6 @@ public class Order
     public DbSet<Order> Orders { get; set; }
 ```
 
-### Create Services Folder
-- Add following classes inside the Services
-#### 
-```csharp
-public class ProductService
-{
-    private readonly ApplicationDbContext _context;
-
-    public ProductService(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
-    public IEnumerable<Product> GetAllProducts() => _context.Products.ToList();
-    public Product GetProductById(int id) => _context.Products.Find(id);
-}
-```
-
 
 #### Configuring the Web Application
 ##### Add Connection String
@@ -111,155 +93,58 @@ Add-Migration InitialCreate
 Update-Database
 ```
 
-### Define Repository Interfaces
-- In `Web` Project Add new folder named `Repositories`
-- Add new interface named `IProductRepository.cs`
-```csharp
-
-    public interface IProductRepository
-    {
-        IEnumerable<Product> GetAllProducts();
-        Product GetProductById(int id);
-        void AddProduct(Product product);
-        void UpdateProduct(Product product);
-        void DeleteProduct(int id);
-    }
-
-```
-
-- Add new interface named `IOrderRepository.cs`
-
-```csharp
-
-    public interface IOrderRepository
-    {
-        IEnumerable<Order> GetAllOrders();
-        Order GetOrderById(int id);
-        void AddOrder(Order order);
-    }
-
-```
-
-### Implement Repository Classes
-
-- Inside `Repositories` folder:
-- Add a class named `ProductRepository.cs`
-```csharp
-using System.Collections.Generic;
-using System.Linq;
-
-namespace SportsStore.Web.Repositories
-{
-    public class ProductRepository : IProductRepository
-    {
-        private readonly List<Product> _products;
-
-        public ProductRepository()
-        {
-            // Sample data for demonstration
-            _products = new List<Product>
-            {
-                new Product { Id = 1, Name = "Football", Price = 25.00m, Description = "A regulation-size football.", ImageUrl = "/images/football.jpg" },
-                new Product { Id = 2, Name = "Tennis Racket", Price = 75.00m, Description = "A high-quality tennis racket.", ImageUrl = "/images/racket.jpg" }
-            };
-        }
-
-        public IEnumerable<Product> GetAllProducts() => _products;
-
-        public Product GetProductById(int id) => _products.FirstOrDefault(p => p.Id == id);
-
-        public void AddProduct(Product product)
-        {
-            product.Id = _products.Max(p => p.Id) + 1; // Simple ID generation
-            _products.Add(product);
-        }
-
-        public void UpdateProduct(Product product)
-        {
-            var existing = GetProductById(product.Id);
-            if (existing != null)
-            {
-                existing.Name = product.Name;
-                existing.Price = product.Price;
-                existing.Description = product.Description;
-                existing.ImageUrl = product.ImageUrl;
-            }
-        }
-
-        public void DeleteProduct(int id)
-        {
-            var product = GetProductById(id);
-            if (product != null)
-            {
-                _products.Remove(product);
-            }
-        }
-    }
-}
-```
-
-- Add a class named `OrderRepository.cs`
-
-```csharp
-using System.Collections.Generic;
-using SportsStore.Domain;
-
-namespace SportsStore.Web.Repositories
-{
-    public class OrderRepository : IOrderRepository
-    {
-        private readonly List<Order> _orders;
-
-        public OrderRepository()
-        {
-            _orders = new List<Order>();
-        }
-
-        public IEnumerable<Order> GetAllOrders() => _orders;
-
-        public Order GetOrderById(int id) => _orders.FirstOrDefault(o => o.Id == id);
-
-        public void AddOrder(Order order)
-        {
-            order.Id = _orders.Count + 1; // Simple ID generation
-            _orders.Add(order);
-        }
-    }
-}
-```
-
 ### Add Seed Data for Products
 - Add Migration SeedProducts
 - Add `INSERT` SQL Queries to add few products.
+#### Step 1: Create a Migration
 
-### Update the UI Layer
-#### Create Controllers and Views based on Controllers
-- In the `Controllers` folder of the `SportsStore.Web` project, create a new controller named `ProductsController`.
+1. Open the *Package Manager Console* in Visual Studio.
+2. Run the following command to create a new migration:
+
+   ```bash
+   Add-Migration SeedProducts
+   ```
+
+#### Step 2: Modify the Migration
+
+Open the newly created migration file and modify the Up method to insert your initial products.
+
+#### Example Migration
+
+Here's how you can structure your migration to include an image URL:
 
 ```csharp
-using System.Web.Mvc;
-using SportsStore.Web.Repositories;
+using System.Data.Entity.Migrations;
 
-public class ProductsController : Controller
+namespace SportStore.Migrations
 {
-    private readonly IProductRepository _productRepository;
-
-    public ProductsController()
+    public partial class SeedProducts : DbMigration
     {
-        _productRepository = new ProductRepository();
-    }
+        public override void Up()
+        {
+            // Insert initial products with image URLs
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 1', 10.00, 'Description for Product 1', 'http://example.com/images/product1.jpg')");
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 2', 20.00, 'Description for Product 2', 'http://example.com/images/product2.jpg')");
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 3', 30.00, 'Description for Product 3', 'http://example.com/images/product3.jpg')");
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 4', 40.00, 'Description for Product 4', 'http://example.com/images/product4.jpg')");
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 5', 50.00, 'Description for Product 5', 'http://example.com/images/product5.jpg')");
+        }
 
-    public ActionResult Index()
-    {
-        var products = _productRepository.GetAllProducts();
-        return View(products);
-    }
-
-    public ActionResult Details(int id)
-    {
-        var product = _productRepository.GetProductById(id);
-        return View(product);
+        public override void Down()
+        {
+            // Remove the products if rolling back
+            Sql("DELETE FROM Products WHERE Name IN ('Product 1', 'Product 2', 'Product 3', 'Product 4', 'Product 5')");
+        }
     }
 }
 ```
-- Create `index.html` view, in `Views/Products` 
+
+#### Step 3: Update the Database
+
+After modifying the migration, apply it to your database:
+
+1. In the *Package Manager Console*, run:
+
+```bash
+Update-Database
+```
