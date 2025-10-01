@@ -96,35 +96,53 @@ Update-Database
 ### Add Seed Data for Products
 - Add Migration SeedProducts
 - Add `INSERT` SQL Queries to add few products.
+#### Step 1: Create a Migration
 
-### Update the UI Layer
-#### Create Controllers and Views based on Controllers
-- In the `Controllers` folder of the `SportsStore.Web` project, create a new controller named `ProductsController`.
+1. Open the *Package Manager Console* in Visual Studio.
+2. Run the following command to create a new migration:
+
+   ```bash
+   Add-Migration SeedProducts
+   ```
+
+#### Step 2: Modify the Migration
+
+Open the newly created migration file and modify the Up method to insert your initial products.
+
+Here's how you can structure your migration:
 
 ```csharp
-using System.Web.Mvc;
-using SportsStore.Web.Repositories;
+using System.Data.Entity.Migrations;
 
-public class ProductsController : Controller
+namespace SportStore.Migrations
 {
-    private readonly IProductRepository _productRepository;
-
-    public ProductsController()
+    public partial class SeedProducts : DbMigration
     {
-        _productRepository = new ProductRepository();
-    }
+        public override void Up()
+        {
+            // Insert initial products with image URLs
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 1', 10.00, 'Description for Product 1', 'http://example.com/images/product1.jpg')");
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 2', 20.00, 'Description for Product 2', 'http://example.com/images/product2.jpg')");
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 3', 30.00, 'Description for Product 3', 'http://example.com/images/product3.jpg')");
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 4', 40.00, 'Description for Product 4', 'http://example.com/images/product4.jpg')");
+            Sql("INSERT INTO Products (Name, Price, Description, ImageUrl) VALUES ('Product 5', 50.00, 'Description for Product 5', 'http://example.com/images/product5.jpg')");
+        }
 
-    public ActionResult Index()
-    {
-        var products = _productRepository.GetAllProducts();
-        return View(products);
-    }
-
-    public ActionResult Details(int id)
-    {
-        var product = _productRepository.GetProductById(id);
-        return View(product);
+        public override void Down()
+        {
+            // Remove the products if rolling back
+            Sql("DELETE FROM Products WHERE Name IN ('Product 1', 'Product 2', 'Product 3', 'Product 4', 'Product 5')");
+        }
     }
 }
 ```
-- Create `index.html` view, in `Views/Products` 
+
+#### Step 3: Update the Database
+
+After modifying the migration, apply it to your database:
+
+1. In the *Package Manager Console*, run:
+
+```bash
+Update-Database
+```
