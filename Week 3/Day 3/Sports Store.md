@@ -109,9 +109,7 @@ Update-Database
 
 Open the newly created migration file and modify the Up method to insert your initial products.
 
-#### Example Migration
-
-Here's how you can structure your migration to include an image URL:
+Here's how you can structure your migration:
 
 ```csharp
 using System.Data.Entity.Migrations;
