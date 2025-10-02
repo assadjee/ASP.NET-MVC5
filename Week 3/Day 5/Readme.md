@@ -7,6 +7,7 @@
 #### Working with the views:
 - Create a new View for Customers to see products using bootstap cards
 - DataTables for Admin side views
+- Enhance design of the entire application (Headings, lables, buttons, etc)
 
 #### Working with Users and Roles
 - Create Admin account for the application to create Admin Panel, Allowing admin user to:
