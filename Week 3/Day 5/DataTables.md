@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This guide demonstrates how to integrate DataTables into an ASP.NET MVC application using AJAX calls to load data dynamically. CSS and JS files are managed using the `BundleConfig` class to improve performance.
+To integrate DataTables into SportsStore application, we'll be using AJAX calls to load data dynamically. Note that the CSS and JS files are managed using the `BundleConfig` class to improve performance.
 
 
 ## Step 1: Install Required Packages
