@@ -5,7 +5,7 @@
 #### Add new features:
 - Shopping Cart
 #### Working with the views:
-- Create a new View for Customers to see products using bootstap cards
+- Create a new View for Customers to see products using bootstrap cards
 - DataTables for Admin side views
 - Enhance design of the entire application (Headings, lables, buttons, etc)
 
