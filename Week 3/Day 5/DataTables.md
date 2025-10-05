@@ -45,8 +45,6 @@ Update the view to include the bundles and set up the HTML table.
 
 <h2>Products</h2>
 
-<!-- Include DataTables CSS -->
-@Styles.Render("~/Content/datatables")
 
 <table id="productsTable" class="display">
     <thead>
@@ -108,3 +106,162 @@ Add the following action method to return JSON data:
             return Json(orders, JsonRequestBehavior.AllowGet);
         }
 ```
+
+### Order List View
+```html
+@model IEnumerable<YourApp.Model.Order>
+
+@{
+    ViewBag.Title = "Order";
+}
+
+<h2>Orders</h2>
+ <div class="container mt-5">
+        <table id="ordersTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Order Date</th>
+                    <th>Products</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- DataTable will populate this -->
+            </tbody>
+        </table>
+    </div>
+
+    
+    <script>
+        $(document).ready(function() {
+            $('#ordersTable').DataTable({
+                "ajax": {
+                    "url": "@Url.Action('GetOrders', 'Orders')",
+                    "dataSrc": ""
+                },
+                "columns": [
+                    { "data": "Id" },
+                    { "data": "UserId" },
+                    { 
+                        "data": "OrderDate", 
+                        "render": function(data) {
+                            return new Date(data).toLocaleDateString(); // Format the date
+                        }
+                    },
+                    { 
+                        "data": "Products", 
+                        "render": function(data) {
+                            return data.map(product => product.Name).join(', '); // Join product names
+                        }
+                    },
+                    { 
+                        "data": null, 
+                        "render": function(data, type, row) {
+                            return '<a href="#" class="btn btn-primary view">View</a>';
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+```
+
+### Order Detail View (Opened when View button is clicked):
+
+```html
+@model <YourApp.Model.Order>
+
+@{
+    ViewBag.Title = "Order";
+}
+
+<h2>Order Details</h2>
+
+<div class="container mt-5">
+        <div id="orderDetails" class="mb-3">
+            <h5>Order ID: <span id="orderId"></span></h5>
+            <h5>User ID: <span id="userId"></span></h5>
+            <h5>Order Date: <span id="orderDate"></span></h5>
+        </div>
+
+        <table id="productsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- DataTable will populate this -->
+            </tbody>
+        </table>
+    </div>
+
+   <script>
+        $(document).ready(function() {
+            // Replace with actual order details. You may get this data from your AJAX response.
+            const orderDetails = {
+                Id: 1,
+                UserId: "user123",
+                OrderDate: "2023-10-01T00:00:00"
+            };
+
+            // Set order details in the above section
+            $('#orderId').text(orderDetails.Id);
+            $('#userId').text(orderDetails.UserId);
+            $('#orderDate').text(new Date(orderDetails.OrderDate).toLocaleDateString());
+
+            // Initialize DataTable for products
+            $('#productsTable').DataTable({
+                "ajax": {
+                    "url": "@Url.Action('GetProductsByOrder', 'Orders', { orderId: orderDetails.Id })", // AJAX call to fetch products for this order
+                    "dataSrc": ""
+                },
+                "columns": [
+                    { "data": "Name" },
+                    { "data": "Price", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
+                    { "data": "Description" },
+                    { 
+                        "data": null, 
+                        "render": function(data, type, row) {
+                            return '<a href="#" class="btn btn-primary view">View</a>';
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+```
+### Updated Method to get order detials
+
+
+```csharp
+    [HttpGet]
+    public IActionResult GetProductsByOrder(int orderId)
+    {
+        // Fetch the order from the database
+        var order = _context.Orders
+            .Include(o => o.Products) // Ensure to include the Products navigation property
+            .FirstOrDefault(o => o.Id == orderId);
+
+        if (order == null)
+        {
+            return NotFound(); // Return a 404 if the order doesn't exist
+        }
+
+        // Select the products to return
+        var products = order.Products.Select(p => new
+        {
+            p.Name,
+            p.Price,
+            p.Description
+        }).ToList();
+
+        return Json(products); // Return the products as JSON
+    }
+```
+

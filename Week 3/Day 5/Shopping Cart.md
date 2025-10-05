@@ -39,15 +39,20 @@ public class CartService : ICartService
 
     public IEnumerable<CartItemViewModel> GetCartItems()
     {
-        // Logic to retrieve cart items from session or database
-        // Here, we are returning sample data for demonstration
-        return new List<CartItemViewModel>
-        {
-            new CartItemViewModel { Id = 1, Name = "Whiskey", ImageUrl = "/images/whiskey.jpg", Quantity = 2, Price = 29.99m },
-            new CartItemViewModel { Id = 2, Name = "Vodka", ImageUrl = "/images/vodka.jpg", Quantity = 1, Price = 19.99m },
-        };
-    }
+        // Fetch cart items from the database
+        var cartItems = _context.CartItems // Assume CartItems is a DbSet in your DbContext
+            .Select(item => new CartItemViewModel
+            {
+                Id = item.Id,
+                Name = item.Product.Name, // Assuming there's a navigation property to Product
+                ImageUrl = item.Product.ImageUrl, // Assuming Product has an ImageUrl property
+                Quantity = item.Quantity,
+                Price = item.Product.Price // Assuming Product has a Price property
+            })
+            .ToList();
 
+        return cartItems;
+    }
     public void RemoveFromCart(int productId)
     {
         // Logic to remove the item from the cart
