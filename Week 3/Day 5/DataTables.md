@@ -12,9 +12,9 @@ To integrate DataTables into SportsStore application, we'll be using AJAX calls 
 1. Open the **Package Manager Console** in Visual Studio.
 2. Run the following commands to install jQuery and DataTables:
 
-   ```bash
-   Install-Package jQuery
-   Install-Package DataTables
+```bash
+install-package jquery.datatables
+```
 
 ## Step 2: Configure BundleConfig
 ### 2.1 Add CSS and JS Bundles
@@ -78,7 +78,7 @@ Update the view to include the bundles and set up the HTML table.
                 { "data": "Description" },
                 { "data": null, 
                 "render": function(data, type, row) {
-                        return '<a href="#" class="btn btn-primary view">View</a>';
+                        return '<a href="/product/details/" class="btn btn-primary view">View</a>';
                 }
                 }
             ]
