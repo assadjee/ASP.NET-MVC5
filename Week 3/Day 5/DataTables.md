@@ -14,7 +14,7 @@ To integrate DataTables into SportsStore application, we'll be using AJAX calls 
 
    ```bash
    Install-Package jQuery
-   Install-Package DataTables.Mvc
+   Install-Package DataTables
 
 ## Step 2: Configure BundleConfig
 ### 2.1 Add CSS and JS Bundles
