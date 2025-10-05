@@ -76,7 +76,11 @@ Update the view to include the bundles and set up the HTML table.
                 { "data": "Name" },
                 { "data": "Price", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                 { "data": "Description" },
-                { "data": null, "defaultContent": '<a href="#" class="view">View</a>' }
+                { "data": null, 
+                "render": function(data, type, row) {
+                        return '<a href="#" class="btn btn-primary view">View</a>';
+                }
+                }
             ]
         });
     });
