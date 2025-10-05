@@ -93,7 +93,7 @@ Add the following action method to return JSON data:
 
         public JsonResult GetProducts()
         {
-            var products = _productRepository.GetAllProducts().ToList();
+            var products = _productServices.GetAllProducts().ToList();
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 ```
@@ -104,7 +104,7 @@ Add the following action method to return JSON data:
 
         public JsonResult GetOrders()
         {
-            var orders = _orderRepository.GetAllOrders().ToList();
+            var orders = _orderServices.GetAllOrders().ToList();
             return Json(orders, JsonRequestBehavior.AllowGet);
         }
 ```
