@@ -18,6 +18,7 @@ public static void RegisterComponents()
     container.RegisterType<RoleManager<IdentityRole>>();
     // Register controllers
     container.RegisterType<AccountController>();
+     container.RegisterType<ManageController>();
     
     // Register your types here
     container.RegisterType<IUnitOfWork, UnitOfWork>();
@@ -37,4 +38,12 @@ public static void RegisterComponents()
 //    UserManager = userManager;
 //    SignInManager = signInManager;
 //}
+```
+### Comment out the following constructor in ManageController: 
+```c#
+        //public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        //{
+        //    UserManager = userManager;
+        //    SignInManager = signInManager;
+        //}
 ```
