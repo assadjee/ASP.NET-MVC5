@@ -20,6 +20,10 @@
 @Html.ActionLink("Delete", "Delete", new { id=item.Id }, new {@class = "btn btn-danger"})
 </div>
 ```
-**Updated Order DataTable
-**Shopping Cart
-** Identity Register Error with UnityConfig
+
+#### Notes for Reference
+- Updated Order DataTable
+- Fix Shopping Cart to get items from database (Fixed)
+- Shared Layout: Show Order for Admin. 
+- Show Cart for Customers only and only when there is an item in the cart. (Fixed)
+- Identity Register Error with UnityConfig (Fixed)
