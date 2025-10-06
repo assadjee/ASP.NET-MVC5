@@ -15,7 +15,7 @@ public static void RegisterComponents()
     container.RegisterType<SignInManager<ApplicationUser, string>>(new HierarchicalLifetimeManager());
     // Register RoleStore and RoleManager
     container.RegisterType<IRoleStore<IdentityRole, string>, RoleStore<IdentityRole>>();
-    container.RegisterType<RoleManager<IdentityRole>>()
+    container.RegisterType<RoleManager<IdentityRole>>();
     // Register controllers
     container.RegisterType<AccountController>();
     
