@@ -1,6 +1,6 @@
 ## Register Identity and inject using unity.config
 
-### Update the `unity.config` and replace the available code with following:
+### Update the `UnityConfig.cs` and replace the available code with following:
 
 ```c#
 public static void RegisterComponents()
