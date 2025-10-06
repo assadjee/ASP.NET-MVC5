@@ -23,7 +23,7 @@
 
 #### Notes for Reference
 - Updated Order DataTable
-- Fix Shopping Cart to get items from database (Fixed)
-- Shared Layout: Show Order for Admin. 
-- Show Cart for Customers only and only when there is an item in the cart. (Fixed)
-- Identity Register Error with UnityConfig (Fixed)
+- Fix Shopping Cart to get items from database (Fixed). Check [here](/Week%204/Day%202/CartItem.md)
+- Shared Layout: Show Order for Admin. Get the [Details](/Week%204/Day%202/TopNavigation.md).  
+- Show Cart for Customers only and only when there is an item in the cart. (Fixed) For details [follow](/Week%204/Day%202/CartItem.md) here.
+- Identity Register Error with UnityConfig (Fixed). Check this [link](/Week%204/Day%202/LoginAndIdentityFix.md)

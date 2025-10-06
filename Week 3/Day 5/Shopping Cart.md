@@ -1,5 +1,5 @@
 # ASP.NET MVC Shopping Cart View
-
+# Updated one is added in Week 4 Day 2.
 ## 1. ViewModel for Cart Items
 
 Define a ViewModel to represent the cart item details.
