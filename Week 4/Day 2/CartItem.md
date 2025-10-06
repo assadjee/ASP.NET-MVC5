@@ -94,14 +94,12 @@ public class CartService : ICartService
 ```
 
 ## Step 3: Register Services 
-In UnityConfig register the services:
+In UnityConfig register the CartItem Services:
 
 ```csharp
 public static void RegisterServices(IUnityContainer container)
 {
-    container.RegisterType<ApplicationDbContext>(new HierarchicalLifetimeManager());
-    container.RegisterType<IUnitOfWork, UnitOfWork>();
-    container.RegisterType<IProductRepository, ProductRepository>();
+    //Add the following at the end of this method
     container.RegisterType<ICartService, CartService>();
 }
 ```
