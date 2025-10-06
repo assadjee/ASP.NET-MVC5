@@ -286,7 +286,7 @@ public class HomeController : Controller
 ```
 
 - Create a partial view for the navigation (e.g., _Navigation.cshtml):
-```html
+<!-- ```html
 @model YourNamespace.NavigationViewModel
 
 <nav>
@@ -298,6 +298,33 @@ public class HomeController : Controller
             <li><a href="/Cart">Cart</a></li>
         }
     </ul>
+</nav>
+``` -->
+
+```html
+@model YourNamespace.NavigationViewModel
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <div class="container">
+        @Html.ActionLink("Sports Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Products", "Index", "Product", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                @if (Model.CartHasItems)
+                {
+                    <li><a href="/Cart">Cart</a></li>
+                }
+            </ul>
+             @Html.Partial("_LoginPartial")
+        </div>
+    </div>
 </nav>
 ```
 Render the partial view in your layout:
