@@ -3,7 +3,7 @@
 ## Quick Fixes and References
 
 ### Implement Authorization: 
-- Use Vidly App login and user accounts lecture: [Authorization](Authorization.md)
+- Use Vidly App login and user accounts lecture as reference and make changes accordingly: [Authorization](Authorization.md)
 
 ### Showing Cart Items:
 - [CartItem](CartItem.md)
