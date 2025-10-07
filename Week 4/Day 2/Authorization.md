@@ -161,8 +161,10 @@ public async Task<ActionResult> Register(RegisterViewModel model)
 public ActionResult Index()
 {
     if(User.IsInRole("CanManageProducts"))
-        return View("List", db.Movies.Include(x => x.Genre).ToList());
-    return View("ReadOnlyList", db.Movies.Include(x => x.Genre).ToList());
+    {
+        return View("List", db.Product.ToList());
+    }
+    return View("ReadOnlyList", db.Product.ToList());
 }
 ```
 
