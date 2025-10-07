@@ -43,7 +43,7 @@ Check if the user is in the "Admin" role:
 ### Update Navigation Menu
 #### Incase you have navigation as a `Partial View`, put the above code inside that partial view!
 
-Modify your navigation menu to include the "Orders" link for admin users, just find and fix for orders:
+Modify your navigation menu to include the "Orders" link for admin users, just find and fix for orders. Find and replace `nav` to the following updated code, make sure you have already applied the cart changes to the code!:
 ```html
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
     <div class="container">
