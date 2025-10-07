@@ -41,21 +41,35 @@ Check if the user is in the "Admin" role:
 ```
 
 ### Update Navigation Menu
+#### Incase you have navigation as a `Partial View`, put the above code inside that partial view!
+
 Modify your navigation menu to include the "Orders" link for admin users, just find and fix for orders:
 ```html
-<nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/Products">Products</a></li>
-        @if (Model.CartHasItems)
-        {
-            <li><a href="/Cart">Cart</a></li>
-        }
-        @if (isAdmin)
-        {
-            <li><a href="/Orders">Orders</a></li>
-        }
-    </ul>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <div class="container">
+        @Html.ActionLink("Sports Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Products", "Index", "Product", new { area = "" }, new { @class = "nav-link" })</li>
+                @if (isAdmin)
+                {
+                    <li>@Html.ActionLink("Orders", "Index", "Order", new { area = "" }, new { @class = "nav-link" })</li>
+                }
+                <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                @if (Model.CartHasItems)
+                {
+                    <li><a href="/Cart">Cart</a></li>
+                }
+            </ul>
+             @Html.Partial("_LoginPartial")
+        </div>
+    </div>
 </nav>
 ```
 #### Adjust the above code according to your requirements
