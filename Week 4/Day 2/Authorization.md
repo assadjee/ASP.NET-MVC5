@@ -111,7 +111,7 @@ public ActionResult PublicPage()
 }
 ```
 
-## Setting Up Roles in Vidly
+## Setting Up Roles in SportsStore
 
 - Add the following code in `Register` Action inside `AccountController`
 
@@ -154,7 +154,8 @@ public async Task<ActionResult> Register(RegisterViewModel model)
 - Update the database and confirm that the seed data is saved into these tables.   
 
 ### Working With roles
-- Providing Access to certain views based on user roles.
+- Providing Access to certain views based on user roles. Update the code as we did in Vidly project
+- Following code is from Vidly Project:
 
 ```csharp
 public ActionResult Index()
