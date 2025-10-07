@@ -168,7 +168,7 @@ public ActionResult Index()
 - Define role based filters to restrict access to authorized users
 
 ```csharp
-// GET: Movies/Create
+// GET: Products/Create
 [Authorize(Roles = "CanManageProducts")]
 public ActionResult Create()
 {
