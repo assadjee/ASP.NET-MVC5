@@ -17,7 +17,7 @@ Check if the user is in the "Admin" role:
 
 ```csharp
 @{
-    var isAdmin = User.Identity.IsAuthenticated && UserManager.IsInRole(User.Identity.GetUserId(), "Admin");
+    var isAdmin = User.Identity.IsAuthenticated && UserManager.IsInRole(User.Identity.GetUserId(), RoleName.CanManageProducts);
 }
 ```
 
