@@ -11,7 +11,7 @@ csharp
 @using Microsoft.AspNet.Identity.Owin
 @inject Microsoft.AspNet.Identity.UserManager<ApplicationUser> UserManager
 @inject Microsoft.AspNet.Identity.RoleManager<IdentityRole> RoleManager
-
+```
 ## Check User Role
 Check if the user is in the "Admin" role:
 

@@ -160,11 +160,12 @@ public async Task<ActionResult> Register(RegisterViewModel model)
 ```csharp
 public ActionResult Index()
 {
-    if(User.IsInRole("CanManageProducts"))
-    {
-        return View("List", db.Product.ToList());
-    }
-    return View("ReadOnlyList", db.Product.ToList());
+    IEnumerable<Product> products = _productService.GetAllProducts();
+if(User.IsInRole("CanManageProducts"))
+{
+    return View("List", products);
+}
+return View("ReadOnlyList", products);
 }
 ```
 
