@@ -146,7 +146,7 @@ public async Task<ActionResult> Register(RegisterViewModel model)
 }
 
 ```
-- Register new user `admin@vidly.com` (from the browser) 
+- Register new user `admin@store.com` (from the browser) 
 - Comment out the code above.
 - Create a new Migration SeedUsers.
 - Generate and get the scripts from `AspNetUsers`, `AspNetRoles`, and `ASPNetUserRoles`. Put all the scripts inside Sql method in Up method of new migration.
@@ -159,7 +159,7 @@ public async Task<ActionResult> Register(RegisterViewModel model)
 ```csharp
 public ActionResult Index()
 {
-    if(User.IsInRole("CanManageMovies"))
+    if(User.IsInRole("CanManageProducts"))
         return View("List", db.Movies.Include(x => x.Genre).ToList());
     return View("ReadOnlyList", db.Movies.Include(x => x.Genre).ToList());
 }
@@ -169,11 +169,10 @@ public ActionResult Index()
 
 ```csharp
 // GET: Movies/Create
-[Authorize(Roles = "CanManageMovies")]
+[Authorize(Roles = "CanManageProducts")]
 public ActionResult Create()
 {
-    ViewBag.GenreId = new SelectList(db.Genres, "Id", "Name");
-    return View();
+    // Actual View
 }
 ```
 
@@ -185,8 +184,8 @@ public ActionResult Create()
 ```csharp
 public class RoleName
 {
-    public const string CanManageMovies = "CanManageMovies";
+    public const string CanManageProducts = "CanManageProducts";
 }
 ```
-- update the code based on this RoleNames class `[Authorize(Roles = RoleName.CanManageMovies)]
+- update the code based on this RoleNames class `[Authorize(Roles = RoleName.CanManageProducts)]
 `.
