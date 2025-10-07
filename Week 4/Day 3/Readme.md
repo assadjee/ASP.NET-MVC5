@@ -1,4 +1,4 @@
-# SportsStore continured: 
+# SportsStore continued: 
 ### Do the following
 - Finalize the Controllers.
 - Finish the remaining tasks as of yesterday
